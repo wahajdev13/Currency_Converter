@@ -1,0 +1,102 @@
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="currency_calculater">
+            <h1 >
+                Currency Converter
+            </h1>
+            <p style="margin: 10px;">
+                Enter Amount
+            </p>
+            <form>
+                <input type="number" class="amount" id="amount" style="width: 21rem; margin-bottom: 2rem; height: 2.5rem;">
+            </form>
+            <div class="amount_1">
+                <p>
+                    From
+                </p>
+                <p style="padding-left: 14rem;">
+                    TO
+                </p>
+            </div>
+            <div class="options">
+                <select id="fromCurrency" style="height:2rem; width:5rem;">
+                    <option value="USD">USD</option>
+                    <option value="AUD">AUD</option>
+                    <option value="INR">INR</option>
+                    <option value="JPY" selected>JPY</option>
+                    <option value="CNY">CNY</option>
+                    <option value="PKR">PKR</option>
+                    <option value="CAD">CAD</option>
+                </select>
+                <select id="toCurrency" style="margin-left: 11rem;height: 2rem; width:5rem;">
+                    <option value="USD">USD</option>
+                    <option value="AUD">AUD</option>
+                    <option value="INR">INR</option>
+                    <option value="JPY">JPY</option>
+                    <option value="CNY">CNY</option>
+                    <option value="PKR" selected>PKR</option>
+                    <option value="CAD">CAD</option>
+                </select>
+            </div>
+            <div class="exchange_rate1">
+                <input type="text" class="rate" id="resultInput" style="width: 17.2rem; background-color: seashell;border: none;margin-top: 1.9rem; height: 2.5rem;">
+            </div>
+
+            <div class="btn-submit">
+                <input class="convert" type="button" value="Convert" onclick="convertCurrency()" style="
+                      height: 2.3rem; width: 100%;" >
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function convertCurrency() {
+            const fromCurrency = document.getElementById("fromCurrency").value;
+            const toCurrency = document.getElementById("toCurrency").value;
+            const amount = parseFloat(document.getElementById("amount").value);
+            const resultInput = document.getElementById("resultInput");
+
+            // Define your fixed exchange rates
+            const exchangeRates = {
+                 // 1 USD = 300.10 PKR
+                 "INR": 73.24,
+                "PKR": 302.00, 
+                "USD": 1.00,
+                "CAD": 1.23,
+                "CNY": 6.45,
+                "EUR": 0.85,
+                "AUD": 1.33,
+                "JPY": 110.67,
+
+                // Add more exchange rates as needed
+            };
+
+            if (isNaN(amount)) {
+                resultInput.value = "Please enter a valid amount.";
+                return;
+            }
+
+            if (fromCurrency === toCurrency) {
+                resultInput.value = "Source and target currencies cannot be the same.";
+                return;
+            }
+
+            if (!exchangeRates[fromCurrency] || !exchangeRates[toCurrency]) {
+                resultInput.value = "Exchange rate not available for the selected currencies.";
+                return;
+            }
+
+            const convertedAmount = (amount * exchangeRates[toCurrency] / exchangeRates[fromCurrency]).toFixed(2);
+            resultInput.value = `${amount} ${fromCurrency} = ${convertedAmount} ${toCurrency}`;
+        }
+    </script>
+</body>
+
+</html>
